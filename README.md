@@ -43,3 +43,7 @@ owncloud container by running
 		-v /var/owncloud/data:/var/www/owncloud/data \
 		-v /var/owncloud/config:/var/www/owncloud/config -t x3ro/owncloud
 
+Now you should be able to access your owncloud instance at https://[ip or url]/owncloud.
+Configure the databse as MySQL and use the password and host as displayed in 
+`docker logs owncloud` at the top.
+
