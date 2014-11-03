@@ -1,8 +1,5 @@
 FROM debian:stable
 
-#ADD . /usr/src/app
-#WORKDIR /usr/src/app
-
 # install your application's dependencies
 RUN apt-get update
 RUN apt-get install -y wget
@@ -16,9 +13,8 @@ RUN a2enmod ssl
 RUN a2ensite default-ssl
 RUN a2enmod rewrite
 
-
-# replace this with your application's default port
-EXPOSE 80
+# Only expose HTTPS by default
+# EXPOSE 80
 EXPOSE 443
 
 ENV APACHE_RUN_USER  www-data
@@ -26,4 +22,8 @@ ENV APACHE_RUN_GROUP www-data
 ENV APACHE_LOG_DIR   /var/log/apache2
 ENV APACHE_RUN_DIR   /etc/apache2
 
-CMD ["/usr/sbin/apache2", "-c", "ErrorLog /dev/stdout",  "-DFOREGROUND"]
+ADD bootstrap.sh /root/
+# config/ is mounted
+RUN rm -rf /var/www/owncloud/config/
+
+CMD ["/bin/bash", "/root/bootstrap.sh"]
