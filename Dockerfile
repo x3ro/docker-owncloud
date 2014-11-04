@@ -23,7 +23,12 @@ ENV APACHE_LOG_DIR   /var/log/apache2
 ENV APACHE_RUN_DIR   /etc/apache2
 
 ADD bootstrap.sh /root/
+RUN rm /etc/apache2/sites-enabled/*
+ADD default-ssl /etc/apache2/sites-enabled/
 # config/ is mounted
 RUN rm -rf /var/www/owncloud/config/
+
+RUN echo "Redirect 301 /.well-known/carddav /remote.php/carddav" >> /var/www/.htaccess
+RUN echo "Redirect 301 /.well-known/caldav /remote.php/caldav" >> /var/www/.htaccess
 
 CMD ["/bin/bash", "/root/bootstrap.sh"]
