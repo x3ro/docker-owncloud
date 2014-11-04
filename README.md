@@ -31,7 +31,7 @@ docker way", but I'm just getting started with it :)
 		└── [...]
 
 
-Now run 
+Now run
 
 	docker run -d --name owncloud-mysql -e MYSQL_ROOT_PASSWORD=foobar \
 		-v /var/owncloud/mysql:/var/lib/mysql x3ro/mysql
@@ -41,9 +41,13 @@ owncloud container by running
 
 	docker run -d -p 443:443 --name owncloud --link owncloud-mysql:db \
 		-v /var/owncloud/data:/var/www/owncloud/data \
+		-v /etc/ssl/path-to-ssl:/etc/ssl/owncloud \
+		-v /var/owncloud/logs/apache2:/var/log/apache2 \
 		-v /var/owncloud/config:/var/www/owncloud/config -t x3ro/owncloud
 
+Make sure that `/etc/ssl/path-to-ssl/` contains an `ssl.key` and an `ssl.pem` or change the configuration in `default-ssl` in this repository before building.
+
 Now you should be able to access your owncloud instance at https://[ip or url]/owncloud.
-Configure the databse as MySQL and use the password and host as displayed in 
+Configure the databse as MySQL and use the password and host as displayed in
 `docker logs owncloud` at the top.
 
